@@ -184,3 +184,29 @@
   font-weight: 500;
   color: var(--text-secondary);
 }
+
+.scratchLinkWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.scratchLink {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.scratchLink:hover {
+  color: #1a1a1a;
+}
+
+.scratchLink span {
+  color: #6c63ff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

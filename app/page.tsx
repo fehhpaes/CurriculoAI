@@ -8,9 +8,11 @@ import RoleSelection from '@/components/RoleSelection';
 import ProgressSteps from '@/components/ProgressSteps';
 import ResumeComparison from '@/components/ResumeComparison';
 import DownloadButton from '@/components/DownloadButton';
+import CreateFromScratch from '@/components/CreateFromScratch';
 import { optimizeResume, analyzeRoles, type OptimizedResume } from '@/lib/gemini';
 import { extractTextFromPDF } from '@/lib/pdfParser';
 import styles from './page.module.css';
+
 
 export default function Home() {
   const [step, setStep] = useState<number>(0);
@@ -19,6 +21,7 @@ export default function Home() {
   const [optimizedResume, setOptimizedResume] = useState<OptimizedResume | null>(null);
   const [originalFileName, setOriginalFileName] = useState('curriculo');
   const [suggestedRoles, setSuggestedRoles] = useState<string[]>([]);
+  const [isCreatingFromScratch, setIsCreatingFromScratch] = useState(false);
 
   const handleFileSelect = useCallback(async (file: File) => {
     setError(null);
@@ -52,6 +55,30 @@ export default function Home() {
       setStep(0);
     }
   }, []);
+
+  const handleManualTextSubmit = async (text: string) => {
+    setError(null);
+    setOptimizedResume(null);
+    setSuggestedRoles([]);
+    setOriginalFileName('curriculo-manual');
+    setIsCreatingFromScratch(false);
+
+    try {
+      setOriginalText(text);
+      
+      // Step 2: Analyze Roles (Skipping PDF parsing step)
+      setStep(2);
+      const roles = await analyzeRoles(text);
+      if (!roles || roles.length === 0) {
+        throw new Error('Não foi possível identificar possíveis vagas para o currículo.');
+      }
+      setSuggestedRoles(roles);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Erro inesperado. Tente novamente.';
+      setError(message);
+      setStep(0);
+    }
+  };
 
   const handleRoleSelect = async (role: string) => {
     setError(null);
@@ -129,10 +156,18 @@ export default function Home() {
             {step < 4 && (
               <div className={styles.uploadSection} id="upload-section">
                 
-                {step === 0 && (
+                {step === 0 && !isCreatingFromScratch && (
                   <UploadZone
                     onFileSelect={handleFileSelect}
+                    onCreateFromScratch={() => setIsCreatingFromScratch(true)}
                     isProcessing={false}
+                  />
+                )}
+
+                {step === 0 && isCreatingFromScratch && (
+                  <CreateFromScratch 
+                    onComplete={handleManualTextSubmit} 
+                    onCancel={() => setIsCreatingFromScratch(false)} 
                   />
                 )}
 
