@@ -96,6 +96,11 @@ export default function CreateFromScratch({ onComplete, onCancel }: CreateFromSc
           </button>
         </div>
       </form>
+      </form>
+      </form>
+      </form>
+      </form>
+      </form>
     </div>
   );
 }
