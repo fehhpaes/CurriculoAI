@@ -67,22 +67,22 @@ export default function CreateFromScratch({ onComplete, onCancel }: CreateFromSc
           </div>
         </div>
 
-        <div className={styles.inputGroupFullWidth}>
+        <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
           <label htmlFor="summary">Resumo Profissional</label>
           <textarea id="summary" name="summary" rows={3} value={formData.summary} onChange={handleChange} placeholder="Conte brevemente sobre sua trajetória..." />
         </div>
 
-        <div className={styles.inputGroupFullWidth}>
+        <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
           <label htmlFor="experience">Experiência Profissional</label>
           <textarea id="experience" name="experience" rows={5} value={formData.experience} onChange={handleChange} placeholder="Liste seus cargos, empresas e principais conquistas..." />
         </div>
 
-        <div className={styles.inputGroupFullWidth}>
+        <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
           <label htmlFor="education">Formação Acadêmica</label>
           <textarea id="education" name="education" rows={3} value={formData.education} onChange={handleChange} placeholder="Cursos, graduações e certificações..." />
         </div>
 
-        <div className={styles.inputGroupFullWidth}>
+        <div className={`${styles.inputGroup} ${styles.fullWidth}`}>
           <label htmlFor="skills">Habilidades e Competências</label>
           <textarea id="skills" name="skills" rows={3} value={formData.skills} onChange={handleChange} placeholder="Ex: JavaScript, Python, Gestão de Projetos, Inglês Fluente..." />
         </div>
