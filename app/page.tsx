@@ -136,7 +136,7 @@ export default function Home() {
                   />
                 )}
 
-                {step === 2 && suggestedRoles.length > 0 && (
+                {(step === 2 || step === 3) && suggestedRoles.length > 0 && (
                   <RoleSelection
                     suggestedRoles={suggestedRoles}
                     onSelectRole={handleRoleSelect}
