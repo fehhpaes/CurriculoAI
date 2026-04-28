@@ -1,4 +1,4 @@
-import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType } from 'docx';
+import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle } from 'docx';
 import type { OptimizedResume } from './gemini';
 
 export async function generateOptimizedWord(resume: OptimizedResume, originalName: string): Promise<void> {
@@ -11,7 +11,7 @@ export async function generateOptimizedWord(resume: OptimizedResume, originalNam
         text,
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 120 },
-        border: { bottom: { color: "auto", space: 1, value: "single", size: 6 } }
+        border: { bottom: { color: "auto", space: 1, style: BorderStyle.SINGLE, size: 6 } }
       })
     );
   };
