@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Currículo++ | Otimize seu currículo com Inteligência Artificial',
+  title: 'CurrículoAI | Otimize seu currículo com Inteligência Artificial',
   description:
     'Transforme seu currículo com IA. Faça upload do seu PDF e receba em segundos uma versão profissionalmente otimizada, pronta para impressionar recrutadores e passar por sistemas ATS.',
   keywords: ['currículo', 'otimização', 'inteligência artificial', 'ATS', 'recrutamento', 'emprego', 'CV'],
-  authors: [{ name: 'Currículo++' }],
+  authors: [{ name: 'CurrículoAI' }],
   openGraph: {
-    title: 'Currículo++ | Otimize seu currículo com IA',
+    title: 'CurrículoAI | Otimize seu currículo com IA',
     description: 'Transforme seu currículo com Inteligência Artificial em segundos.',
     type: 'website',
   },

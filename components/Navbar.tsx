@@ -22,7 +22,7 @@ export default function Navbar() {
             </svg>
           </div>
           <span className={styles.logoText}>
-            Currículo<span className="gradient-text">++</span>
+            Currículo<span className="gradient-text">AI</span>
           </span>
         </a>
 

@@ -218,7 +218,7 @@ export default function Home() {
         <footer className={styles.footer} role="contentinfo">
           <div className="container">
             <p className={styles.footerText}>
-              <span className="gradient-text" style={{ fontWeight: 700 }}>Currículo++</span>
+              <span className="gradient-text" style={{ fontWeight: 700 }}>CurrículoAI</span>
               {' '}· Feito com ❤️ e Inteligência Artificial
             </p>
             <p className={styles.footerSub}>
