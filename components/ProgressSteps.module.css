@@ -1,0 +1,133 @@
+.wrapper {
+  padding: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stepGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.step.active {
+  border-color: var(--border-accent);
+  background: rgba(108, 99, 255, 0.08);
+  box-shadow: 0 0 24px rgba(108, 99, 255, 0.15);
+}
+
+.step.done {
+  border-color: rgba(74, 222, 128, 0.3);
+  background: rgba(74, 222, 128, 0.05);
+}
+
+.stepIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+
+.step.active .stepIcon {
+  background: var(--gradient);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.step.done .stepIcon {
+  background: rgba(74, 222, 128, 0.2);
+}
+
+.stepInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stepLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.step:not(.active):not(.done) .stepLabel {
+  color: var(--text-muted);
+}
+
+.stepSublabel {
+  font-size: 0.78rem;
+  color: var(--accent-1);
+  animation: fadeInUp 0.3s ease;
+}
+
+.pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--gradient-subtle);
+  animation: pulse-bg 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-bg {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+.connector {
+  width: 32px;
+  height: 2px;
+  background: var(--border);
+  border-radius: 1px;
+  transition: background 0.5s ease;
+  flex-shrink: 0;
+}
+
+.connectorDone {
+  background: rgba(74, 222, 128, 0.4);
+}
+
+@media (max-width: 640px) {
+  .steps {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .connector {
+    width: 2px;
+    height: 20px;
+    margin: 0 auto;
+  }
+
+  .stepGroup {
+    flex-direction: column;
+  }
+}

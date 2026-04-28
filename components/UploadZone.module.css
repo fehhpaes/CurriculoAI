@@ -1,0 +1,186 @@
+.uploadZone {
+  position: relative;
+  border: 2px dashed rgba(108, 99, 255, 0.3);
+  border-radius: var(--radius-xl);
+  background: rgba(108, 99, 255, 0.03);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  min-height: 220px;
+}
+
+.uploadZone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-subtle);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.uploadZone:hover {
+  border-color: rgba(108, 99, 255, 0.6);
+  background: rgba(108, 99, 255, 0.06);
+}
+
+.uploadZone:hover::before {
+  opacity: 1;
+}
+
+.dragging {
+  border-color: var(--accent-1) !important;
+  background: rgba(108, 99, 255, 0.1) !important;
+  transform: scale(1.01);
+  box-shadow: var(--shadow-glow-strong);
+}
+
+.dragging::before {
+  opacity: 1 !important;
+}
+
+.hasFile {
+  border-color: rgba(74, 222, 128, 0.4);
+  background: rgba(74, 222, 128, 0.03);
+}
+
+.hasFile:hover {
+  border-color: rgba(74, 222, 128, 0.7);
+  background: rgba(74, 222, 128, 0.06);
+}
+
+.processing {
+  pointer-events: none;
+  border-color: rgba(108, 99, 255, 0.5);
+}
+
+.fileInput {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.fileInput:disabled {
+  cursor: not-allowed;
+}
+
+.uploadLabel {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 220px;
+  cursor: pointer;
+  padding: 32px;
+}
+
+/* Empty state */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.uploadIcon {
+  margin-bottom: 4px;
+  transition: transform 0.3s ease;
+}
+
+.uploadZone:hover .uploadIcon {
+  transform: translateY(-4px);
+}
+
+.uploadTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.uploadSubtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.uploadMeta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+}
+
+/* File selected */
+.fileSelected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.fileIcon {
+  margin-bottom: 4px;
+}
+
+.fileName {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileSize {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.changeFile {
+  font-size: 0.8rem;
+  color: var(--accent-1);
+  margin-top: 4px;
+  padding: 4px 12px;
+  border: 1px solid rgba(108, 99, 255, 0.3);
+  border-radius: var(--radius-full);
+}
+
+/* Processing state */
+.processingState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(108, 99, 255, 0.2);
+  border-top-color: var(--accent-1);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.processingText {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}

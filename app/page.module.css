@@ -1,0 +1,303 @@
+.page {
+  min-height: 100vh;
+  padding-top: 80px; /* Navbar height */
+}
+
+/* ─── HERO ─── */
+.hero {
+  padding: 80px 0 60px;
+  text-align: center;
+  position: relative;
+}
+
+.heroInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.heroTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(108, 99, 255, 0.1);
+  border: 1px solid rgba(108, 99, 255, 0.25);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-1);
+  letter-spacing: 0.03em;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.tagDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent-3);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.heroTitle {
+  max-width: 750px;
+  text-align: center;
+  animation: fadeInUp 0.5s 0.1s ease both;
+}
+
+.heroSubtitle {
+  max-width: 600px;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.7;
+  animation: fadeInUp 0.5s 0.2s ease both;
+}
+
+.stats {
+  display: flex;
+  gap: 40px;
+  margin-top: 8px;
+  animation: fadeInUp 0.5s 0.3s ease both;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.statValue {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ─── MAIN ─── */
+.main {
+  padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.targetRoleWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface-light);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.targetRoleLabel {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.targetRoleInput {
+  background: var(--background);
+  border: 1px solid var(--border-accent);
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 1rem;
+  color: var(--text-primary);
+  width: 100%;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.targetRoleInput:focus {
+  outline: none;
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+.targetRoleInput::placeholder {
+  color: var(--text-muted);
+}
+
+.uploadSection {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: fadeInUp 0.5s 0.35s ease both;
+}
+
+.progressWrapper {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* ─── ERROR ─── */
+.errorBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px;
+  background: rgba(248, 113, 113, 0.06);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: var(--radius-lg);
+  animation: fadeInUp 0.3s ease forwards;
+}
+
+.errorIcon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.errorTitle {
+  font-weight: 700;
+  color: var(--error);
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.errorText {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.errorBtn {
+  margin-left: auto;
+  padding: 8px 16px;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  border-radius: var(--radius-full);
+  color: var(--error);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.errorBtn:hover {
+  background: rgba(248, 113, 113, 0.2);
+}
+
+/* ─── RESULTS ─── */
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+.successBanner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 28px;
+  background: rgba(74, 222, 128, 0.05);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  border-radius: var(--radius-xl);
+  flex-wrap: wrap;
+}
+
+.successIcon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.successTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--success);
+  margin-bottom: 4px;
+}
+
+.successText {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.newFileBtn {
+  margin-left: auto;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.newFileBtn:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+  background: rgba(108, 99, 255, 0.08);
+}
+
+.downloadSection {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  padding: 40px 0;
+  text-align: center;
+  border-top: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.footerText {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.footerSub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0 40px;
+  }
+
+  .stats {
+    gap: 24px;
+  }
+
+  .successBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .newFileBtn {
+    margin-left: 0;
+  }
+}
