@@ -27,9 +27,9 @@ export default function Navbar() {
         </a>
 
         {/* Badge */}
-        <div className={styles.badge} aria-label="Powered by Gemini AI">
+        <div className={styles.badge} aria-label="Powered by Advanced AI">
           <span className={styles.badgeDot} aria-hidden="true" />
-          Powered by Gemini AI
+          Powered by Advanced AI
         </div>
       </div>
     </nav>

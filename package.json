@@ -9,17 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.17.1",
     "docx": "^9.6.1",
+    "file-saver": "^2.0.5",
     "framer-motion": "^11.0.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "next": "14.2.29",
+    "openai": "^4.47.1",
     "pdfjs-dist": "^4.2.67",
     "react": "^18",
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

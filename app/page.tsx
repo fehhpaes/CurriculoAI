@@ -116,7 +116,7 @@ export default function Home() {
             {/* Tag */}
             <div className={styles.heroTag} aria-label="Tag de destaque">
               <span className={styles.tagDot} aria-hidden="true" />
-              Powered by Google Gemini AI
+              Powered by Advanced AI
             </div>
 
             {/* Heading */}

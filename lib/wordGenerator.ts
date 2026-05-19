@@ -1,4 +1,5 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, BorderStyle } from 'docx';
+import { saveAs } from 'file-saver';
 import type { OptimizedResume } from './gemini';
 
 export async function generateOptimizedWord(resume: OptimizedResume, originalName: string): Promise<void> {
@@ -144,13 +145,7 @@ export async function generateOptimizedWord(resume: OptimizedResume, originalNam
   const blob = await Packer.toBlob(doc);
   
   // Download logic
-  const safeName = originalName.replace('.pdf', '').replace(/[^a-zA-Z0-9\-_]/g, '');
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `${safeName}_otimizado.docx`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  window.URL.revokeObjectURL(url);
+  const finalName = originalName ? originalName.replace('.pdf', '').replace(/[^a-zA-Z0-9]/g, '') : 'curriculo';
+  const nameToSave = (finalName || 'curriculo') + '_otimizado.docx';
+  saveAs(blob, nameToSave);
 }

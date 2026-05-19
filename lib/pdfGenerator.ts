@@ -1,6 +1,6 @@
 // lib/pdfGenerator.ts
 // Gera PDF profissional com o currículo otimizado usando jsPDF
-
+import { saveAs } from 'file-saver';
 import type { OptimizedResume } from './gemini';
 
 export async function generateOptimizedPDF(resume: OptimizedResume, originalName: string): Promise<void> {
@@ -203,7 +203,8 @@ export async function generateOptimizedPDF(resume: OptimizedResume, originalName
     );
   }
 
-  // Download
-  const safeName = originalName.replace('.pdf', '').replace(/[^a-zA-Z0-9\-_\s]/g, '');
-  doc.save(`${safeName}_otimizado.pdf`);
+  // Download nativo e direto
+  const finalName = originalName ? originalName.replace('.pdf', '').replace(/[^a-zA-Z0-9]/g, '') : 'curriculo';
+  const nameToSave = (finalName || 'curriculo') + '_otimizado.pdf';
+  doc.save(nameToSave);
 }

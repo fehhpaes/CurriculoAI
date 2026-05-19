@@ -101,7 +101,7 @@ export default function UploadZone({ onFileSelect, onCreateFromScratch, isProces
           ) : (
             <div className={styles.emptyState}>
               <div className={styles.uploadIcon} aria-hidden="true">
-                <svg width="56" height="56" viewBox="0 0 56" fill="none">
+                <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
                   <rect width="56" height="56" rx="16" fill="url(#uploadGrad)" fillOpacity="0.12" />
                   <path d="M20 36h16M28 20v12M28 20l-4 4M28 20l4 4" stroke="url(#uploadGrad2)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   <rect x="14" y="38" width="28" height="4" rx="2" fill="url(#uploadGrad2)" fillOpacity="0.3" />

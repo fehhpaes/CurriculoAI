@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import OpenAI from 'openai';
 
 const SYSTEM_PROMPT = `Você é um especialista sênior em Recursos Humanos, com mais de 15 anos de experiência em recrutamento e seleção nas maiores empresas do Brasil. Você também é especialista em otimização de currículos para sistemas ATS (Applicant Tracking Systems).
 
@@ -13,7 +13,7 @@ DIRETRIZES DE OTIMIZAÇÃO:
 5. **Estrutura**: Organize tudo de forma lógica e profissional. Seja conciso e direto.
 6. **REGRAS DE OURO (ANTI-ALUCINAÇÃO DE DATAS E FATOS)**: NUNCA invente, calcule ou presuma datas (início, fim, formaturas). Extraia meses e anos EXATAMENTE como aparecem no texto original. Se constar apenas "cursando o 4º semestre", não tente adivinhar as datas, deixe o período vazio ou copie exatamente como escrito. Não crie empresas, cursos ou competências que não estejam explícitas.
 
-IMPORTANTE: Retorne APENAS o JSON, sem texto adicional, sem markdown, sem \`\`\`. O JSON deve seguir exatamente esta estrutura:
+IMPORTANTE: Retorne APENAS o JSON válido, sem texto adicional, sem markdown, sem \`\`\`. O JSON deve seguir exatamente esta estrutura:
 {
   "nome": "Nome completo",
   "cargo": "Cargo/Título profissional (inferido ou existente)",
@@ -50,6 +50,19 @@ IMPORTANTE: Retorne APENAS o JSON, sem texto adicional, sem markdown, sem \`\`\`
   ]
 }`;
 
+// Modelos em ordem de preferência — fallback automático se o primeiro falhar
+const MODELS = [
+  'google/gemini-2.0-pro-exp-02-05:free',
+  'deepseek/deepseek-v4-flash:free',
+  'google/gemma-4-31b-it:free',
+  'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free'
+];
+
+const client = new OpenAI({
+  baseURL: 'https://openrouter.ai/api/v1',
+  apiKey: process.env.OPENROUTER_API_KEY,
+});
+
 export async function POST(request: NextRequest) {
   try {
     const { resumeText, targetRole } = await request.json();
@@ -61,51 +74,58 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY;
-    if (!apiKey) {
+    if (!process.env.OPENROUTER_API_KEY) {
       return NextResponse.json(
-        { error: 'Chave da API Gemini não configurada. Crie o arquivo .env.local com GEMINI_API_KEY.' },
+        { error: 'Chave da API não configurada. Crie o arquivo .env.local com OPENROUTER_API_KEY.' },
         { status: 500 }
       );
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      generationConfig: {
-        temperature: 0.7,
-        topP: 0.9,
-        maxOutputTokens: 8192,
-        responseMimeType: 'application/json',
-      },
-    });
-
-    let prompt = `${SYSTEM_PROMPT}\n\n`;
+    let userMessage = '';
     if (targetRole && targetRole.trim() !== '') {
-      prompt += `INSTRUÇÃO CRÍTICA: O usuário deseja se candidatar especificamente para a vaga de "${targetRole}". Adapte fortemente o Resumo Profissional, realce as Experiências mais relevantes e priorize as Habilidades que tenham relação direta com essa vaga.\n\n`;
+      userMessage += `INSTRUÇÃO CRÍTICA: O usuário deseja se candidatar especificamente para a vaga de "${targetRole}". Adapte fortemente o Resumo Profissional, realce as Experiências mais relevantes e priorize as Habilidades que tenham relação direta com essa vaga.\n\n`;
     }
-    prompt += `Texto do currículo a ser otimizado:\n\n${resumeText}`;
+    userMessage += `Texto do currículo a ser otimizado:\n\n${resumeText}`;
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text().trim();
+    let lastError: string = 'Erro desconhecido';
 
-    // Tenta encontrar um bloco JSON dentro da resposta
-    const match = responseText.match(/\{[\s\S]*\}/);
-    const cleanJson = match ? match[0] : responseText;
+    // Tenta cada modelo em sequência até um funcionar
+    for (const model of MODELS) {
+      try {
+        console.log(`[optimize] Tentando modelo: ${model}`);
 
-    let resume;
-    try {
-      resume = JSON.parse(cleanJson);
-    } catch (parseErr) {
-      console.error('JSON parse error details:', parseErr);
-      console.error('Raw response that failed to parse:', responseText);
-      return NextResponse.json(
-        { error: 'Erro ao processar resposta da IA. O formato gerado foi inválido.' },
-        { status: 500 }
-      );
+        const completion = await client.chat.completions.create({
+          model,
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            { role: 'user', content: userMessage },
+          ],
+          response_format: { type: 'json_object' },
+          temperature: 0.7,
+          max_tokens: 8192,
+        });
+
+        const responseText = completion.choices[0]?.message?.content?.trim() ?? '';
+        const match = responseText.match(/\{[\s\S]*\}/);
+        const cleanJson = match ? match[0] : responseText;
+
+        const resume = JSON.parse(cleanJson);
+        console.log(`[optimize] Sucesso com modelo: ${model}`);
+        return NextResponse.json({ resume, model });
+
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        lastError = msg;
+        console.warn(`[optimize] Modelo ${model} falhou: ${msg}`);
+
+        // Se não for erro de rate limit, provider, 404, 400 ou JSON quebrado, não tenta o próximo
+        const isTransientError = msg.includes('429') || msg.includes('404') || msg.includes('400') || msg.includes('rate') || msg.includes('Provider') || msg.includes('JSON') || msg.includes('Unterminated') || msg.includes('Unexpected token');
+        if (!isTransientError) break;
+      }
     }
 
-    return NextResponse.json({ resume });
+    return NextResponse.json({ error: `Todos os modelos falharam. Último erro: ${lastError}` }, { status: 500 });
+
   } catch (error: unknown) {
     console.error('Optimize API error:', error);
     const message = error instanceof Error ? error.message : 'Erro interno do servidor';
