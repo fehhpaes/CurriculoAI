@@ -12,9 +12,10 @@ const MODELS = [
   'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free'
 ];
 
+// O 'dummy_key' evita que a compilação (build) da Vercel quebre se a variável não existir no momento do build
 const client = new OpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY,
+  apiKey: process.env.OPENROUTER_API_KEY || 'dummy_key',
 });
 
 export async function POST(request: NextRequest) {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
 
     if (!process.env.OPENROUTER_API_KEY) {
       return NextResponse.json(
-        { error: 'Chave da API não configurada. Crie o arquivo .env.local com OPENROUTER_API_KEY.' },
+        { error: 'Chave da API não configurada. Configure a variável OPENROUTER_API_KEY na Vercel.' },
         { status: 500 }
       );
     }
